@@ -438,7 +438,7 @@ h2 {
 /* Mix: any server, one document, any client */
 
 .flow {
-  --row: 56px;
+  --row: 64px;
   --row-gap: 12px;
   --link: 32px;
   display: grid;
@@ -544,23 +544,40 @@ h2 {
 }
 
 .clients .end {
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "label dot" "code dot";
+  align-content: center;
+  row-gap: 3px;
 }
 
 .clients .end::before {
-  order: 3;
+  grid-area: dot;
+  align-self: center;
 }
 
 .clients code {
+  grid-area: code;
   font-size: 0.8125rem;
+  color: var(--muted);
   white-space: nowrap;
   overflow-x: auto;
   min-width: 0;
 }
 
-.clients .end-name {
-  margin-left: auto;
-  order: 2;
+.end-label {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.3;
+}
+
+.clients .end-label {
+  grid-area: label;
+  flex-direction: row;
+  align-items: baseline;
+  flex-wrap: wrap;
+  column-gap: 10px;
 }
 
 .doc {
@@ -763,24 +780,14 @@ h2 {
   }
 
   .clients .end {
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    row-gap: 4px;
     padding: 12px 14px;
   }
 
-  .clients .end::before {
-    order: 0;
-  }
-
-  .clients .end-name {
-    order: 1;
-    margin-left: 0;
+  .clients .end-label {
+    flex-direction: column;
   }
 
   .clients code {
-    order: 2;
-    flex-basis: 100%;
     font-size: 0.75rem;
     white-space: normal;
     overflow-wrap: anywhere;
