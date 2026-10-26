@@ -285,6 +285,15 @@ h1 {
   tab-size: 4;
 }
 
+.stop:not(.wire) pre {
+  transition: border-color 0.15s;
+}
+
+.stop:not(.wire):hover pre,
+.stop:not(.wire) pre:focus-visible {
+  border-color: var(--dot);
+}
+
 .wire pre {
   border: 1.5px solid var(--ink);
   font-size: 0.875rem;

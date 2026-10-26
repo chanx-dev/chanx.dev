@@ -40,57 +40,46 @@ tabs.forEach((tab, i) => {
   });
 });
 
-// The hero's one motion: each language sends its message down the rail, and all three
-// arrive as the same frame. Replays while the rail is on screen.
+// The hero responds to the reader: point at (or tab to) a language, and its message runs
+// down the rail and lands as the frame on the wire. Nothing moves on its own.
 const rail = document.querySelector(".rail");
 if (rail && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
   const wire = rail.querySelector(".stop.wire");
-  const packets = ["py", "ts", "go"].map((lang) => ({
-    el: rail.querySelector(`.packet.${lang}`),
-    stop: rail.querySelector(`.stop.${lang}`),
-  }));
   // Top of a 14px dot centred on a stop's marker, which sits 11px below the stop's top.
   const dotTop = (stop) =>
     stop.getBoundingClientRect().top - rail.getBoundingClientRect().top + 11 - 7;
+  let current = null;
+  let glow = 0;
 
-  let visible = false;
-  let playing = false;
-  let timer = 0;
-
-  const pause = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-  // One message at a time: each dot runs the rail at the same speed and lands in the
-  // wire frame before the next one leaves.
-  async function play() {
-    if (playing) return;
-    playing = true;
+  function send(lang) {
+    const stop = rail.querySelector(`.stop.${lang}`);
+    const packet = rail.querySelector(`.packet.${lang}`);
+    current?.cancel();
+    clearTimeout(glow);
+    wire.classList.remove("arrived");
+    const from = dotTop(stop);
     const to = dotTop(wire);
-    for (const { el, stop } of packets) {
-      if (!visible) break;
-      const from = dotTop(stop);
-      await el.animate(
-        [
-          { transform: `translateY(${from}px) scale(1)`, opacity: 1 },
-          { transform: `translateY(${to}px) scale(1)`, opacity: 1, offset: 0.9 },
-          { transform: `translateY(${to}px) scale(0.3)`, opacity: 0 },
-        ],
-        { duration: 300 + (to - from) * 1.6, easing: "cubic-bezier(0.45, 0, 0.3, 1)" },
-      ).finished;
-      wire.classList.add("arrived");
-      await pause(260);
-      wire.classList.remove("arrived");
-      await pause(200);
-    }
-    playing = false;
-    timer = setTimeout(() => visible && play(), 3200);
+    current = packet.animate(
+      [
+        { transform: `translateY(${from}px) scale(1)`, opacity: 1 },
+        { transform: `translateY(${to}px) scale(1)`, opacity: 1, offset: 0.9 },
+        { transform: `translateY(${to}px) scale(0.3)`, opacity: 0 },
+      ],
+      { duration: 300 + (to - from) * 1.6, easing: "cubic-bezier(0.45, 0, 0.3, 1)" },
+    );
+    current.finished
+      .then(() => {
+        wire.classList.add("arrived");
+        glow = setTimeout(() => wire.classList.remove("arrived"), 450);
+      })
+      .catch(() => {}); // cancelled by the next language
   }
 
-  new IntersectionObserver(([entry]) => {
-    const wasVisible = visible;
-    visible = entry.isIntersecting;
-    if (visible && !wasVisible) {
-      clearTimeout(timer);
-      timer = setTimeout(play, 500);
-    }
-  }).observe(rail);
+  for (const lang of ["py", "ts", "go"]) {
+    const stop = rail.querySelector(`.stop.${lang}`);
+    stop.addEventListener("pointerenter", (event) => {
+      if (event.pointerType === "mouse") send(lang);
+    });
+    stop.addEventListener("focusin", () => send(lang));
+  }
 }

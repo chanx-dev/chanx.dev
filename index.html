@@ -59,19 +59,19 @@
         <ol>
           <li class="stop py">
             <span class="where">chanx, Python</span>
-<pre><code><span class="k">class</span> <span class="t">ChatMessage</span>(<span class="t">BaseMessage</span>):
+<pre tabindex="0" aria-label="chanx, Python"><code><span class="k">class</span> <span class="t">ChatMessage</span>(<span class="t">BaseMessage</span>):
     action: <span class="t">Literal</span>[<span class="s">"chat"</span>] = <span class="s">"chat"</span>
     payload: <span class="t">ChatPayload</span></code></pre>
           </li>
           <li class="stop ts">
             <span class="where">chanx-js, TypeScript</span>
-<pre><code><span class="k">const</span> Chat = defineMessage(<span class="s">'chat'</span>,
+<pre tabindex="0" aria-label="chanx-js, TypeScript"><code><span class="k">const</span> Chat = defineMessage(<span class="s">'chat'</span>,
   z.object({ text: z.string() }),
 );</code></pre>
           </li>
           <li class="stop go">
             <span class="where">chanx-go, Go</span>
-<pre><code><span class="k">type</span> <span class="t">ChatMessage</span> <span class="k">struct</span> {
+<pre tabindex="0" aria-label="chanx-go, Go"><code><span class="k">type</span> <span class="t">ChatMessage</span> <span class="k">struct</span> {
 	chanx.<span class="t">BaseMessage</span> <span class="s">`action:"chat"`</span>
 	Payload <span class="t">ChatPayload</span> <span class="s">`json:"payload"`</span>
 }</code></pre>
