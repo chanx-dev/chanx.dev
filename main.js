@@ -57,26 +57,32 @@ if (rail && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
   let playing = false;
   let timer = 0;
 
+  const pause = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  // One message at a time: each dot runs the rail at the same speed and lands in the
+  // wire frame before the next one leaves.
   async function play() {
     if (playing) return;
     playing = true;
     const to = dotTop(wire);
-    const runs = packets.map(({ el, stop }, i) => {
+    for (const { el, stop } of packets) {
+      if (!visible) break;
       const from = dotTop(stop);
-      return el.animate(
+      await el.animate(
         [
           { transform: `translateY(${from}px) scale(1)`, opacity: 1 },
-          { transform: `translateY(${to}px) scale(1)`, opacity: 1, offset: 0.88 },
+          { transform: `translateY(${to}px) scale(1)`, opacity: 1, offset: 0.9 },
           { transform: `translateY(${to}px) scale(0.3)`, opacity: 0 },
         ],
-        { duration: 1300, delay: i * 260, easing: "cubic-bezier(0.5, 0, 0.3, 1)" },
+        { duration: 300 + (to - from) * 1.6, easing: "cubic-bezier(0.45, 0, 0.3, 1)" },
       ).finished;
-    });
-    await Promise.all(runs);
+      wire.classList.add("arrived");
+      await pause(260);
+      wire.classList.remove("arrived");
+      await pause(200);
+    }
     playing = false;
-    wire.classList.add("arrived");
-    setTimeout(() => wire.classList.remove("arrived"), 700);
-    timer = setTimeout(() => visible && play(), 4200);
+    timer = setTimeout(() => visible && play(), 3200);
   }
 
   new IntersectionObserver(([entry]) => {

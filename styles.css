@@ -288,7 +288,7 @@ h1 {
 .wire pre {
   border: 1.5px solid var(--ink);
   font-size: 0.875rem;
-  transition: box-shadow 0.4s;
+  transition: box-shadow 0.25s;
 }
 
 .wire.arrived pre {
