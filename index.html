@@ -153,20 +153,34 @@
 
     <section class="mix" aria-labelledby="mix-title">
       <h2 id="mix-title">The server and the client don't have to share a language</h2>
-      <ul class="pairs">
-        <li>
-          <span class="pair" aria-hidden="true"><i class="py"></i><i class="ts"></i></span>
-          <p><strong>Django or FastAPI server, React client.</strong> chanx-js generates the client from the AsyncAPI document your Python server serves.</p>
-        </li>
-        <li>
-          <span class="pair" aria-hidden="true"><i class="go"></i><i class="ts"></i></span>
-          <p><strong>Go server, TypeScript client.</strong> Same document, same generator, and a typo in a message fails to compile.</p>
-        </li>
-        <li>
-          <span class="pair" aria-hidden="true"><i class="ts"></i><i class="py"></i></span>
-          <p><strong>Node and Python servers on one Redis.</strong> Their channel layers share a format, so a broadcast from either reaches clients of both.</p>
-        </li>
-      </ul>
+      <p class="section-lede">
+        Every chanx server serves an AsyncAPI document built from its handlers. Point a
+        generator at it and you get a typed client, whatever the server is written in.
+      </p>
+
+      <div class="flow">
+        <ul class="flow-side servers" aria-label="Servers">
+          <li class="end py"><span class="end-name">Python server</span><span class="end-sub">Django, FastAPI</span></li>
+          <li class="end ts"><span class="end-name">TypeScript server</span><span class="end-sub">Node, Bun, Deno</span></li>
+          <li class="end go"><span class="end-name">Go server</span><span class="end-sub">net/http, gin, echo, Fiber</span></li>
+        </ul>
+
+        <div class="doc">
+          <code>/asyncapi.json</code>
+          <span>AsyncAPI 3.0, generated from your handlers</span>
+        </div>
+
+        <ul class="flow-side clients" aria-label="Client generators">
+          <li class="end py"><code>chanx generate-client</code><span class="end-name">Python client</span></li>
+          <li class="end ts"><code>npx @chanx-js/codegen</code><span class="end-name">TypeScript client</span></li>
+          <li class="end go"><code>go run go.chanx.dev/cmd/chanx-codegen@latest</code><span class="end-name">Go client</span></li>
+        </ul>
+      </div>
+
+      <p class="also">
+        Servers can mix too: Node and Python servers can share one Redis channel layer, so a
+        broadcast from either reaches the clients of both.
+      </p>
     </section>
 
     <section class="demo" aria-labelledby="demo-title">

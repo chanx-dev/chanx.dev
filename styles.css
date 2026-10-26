@@ -435,54 +435,180 @@ h2 {
   color: var(--muted);
 }
 
-/* Mix */
+/* Mix: any server, one document, any client */
 
-.pairs {
+.flow {
+  --row: 56px;
+  --row-gap: 12px;
+  --link: 32px;
+  display: grid;
+  grid-template-columns: minmax(0, 220px) minmax(0, 240px) minmax(0, 1fr);
+  column-gap: calc(var(--link) * 2);
+  align-items: center;
+  margin-top: 40px;
+}
+
+.flow-side {
   list-style: none;
-  margin: 36px 0 0;
+  margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 40px;
-}
-
-.pair {
-  display: flex;
-  align-items: center;
-}
-
-.pair i {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-}
-
-.pair i + i {
-  margin-left: 44px;
+  grid-template-columns: minmax(0, 1fr);
+  grid-auto-rows: var(--row);
+  row-gap: var(--row-gap);
   position: relative;
 }
 
-.pair i + i::before {
+/* The bracket that gathers the three rows into one line. */
+.flow-side::before {
   content: "";
   position: absolute;
-  right: 18px;
-  top: 6px;
-  width: 36px;
-  height: 2px;
+  top: calc(var(--row) / 2);
+  bottom: calc(var(--row) / 2);
+  width: 2px;
   background: var(--line);
 }
 
-.pair .py { background: var(--py); }
-.pair .ts { background: var(--ts); }
-.pair .go { background: var(--go); }
+.servers::before { right: calc(var(--link) * -1); }
+.clients::before { left: calc(var(--link) * -1); }
 
-.pairs p {
-  margin: 16px 0 0;
+.end {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  transition: border-color 0.15s;
 }
 
-.pairs strong {
-  color: var(--ink);
+.end::before {
+  content: "";
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--dot);
+}
+
+/* The stub from each row to its bracket. */
+.end::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: var(--link);
+  height: 2px;
+  margin-top: -1px;
+  background: var(--line);
+  transition: background-color 0.15s;
+}
+
+.servers .end::after { left: 100%; }
+.clients .end::after { right: 100%; }
+
+.end:hover {
+  border-color: var(--dot);
+}
+
+.end:hover::after {
+  background: var(--dot);
+}
+
+.end-name {
   font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.end-sub {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.servers .end {
+  flex-wrap: wrap;
+  align-content: center;
+  row-gap: 0;
+  column-gap: 12px;
+  line-height: 1.3;
+}
+
+.servers .end-sub {
+  flex-basis: 100%;
+  padding-left: 24px;
+}
+
+.clients .end {
+  justify-content: space-between;
+}
+
+.clients .end::before {
+  order: 3;
+}
+
+.clients code {
+  font-size: 0.8125rem;
+  white-space: nowrap;
+  overflow-x: auto;
+  min-width: 0;
+}
+
+.clients .end-name {
+  margin-left: auto;
+  order: 2;
+}
+
+.doc {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 20px;
+  background: var(--surface);
+  border: 1.5px solid var(--ink);
+  border-radius: 10px;
+  transition: box-shadow 0.15s;
+}
+
+/* Links from the brackets into the document. */
+.doc::before,
+.doc::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: var(--link);
+  height: 2px;
+  margin-top: -1px;
+  background: var(--line);
+}
+
+.doc::before { right: 100%; }
+.doc::after { left: 100%; }
+
+.doc code {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.doc span {
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.flow:has(.end:hover) .doc {
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--ink) 14%, transparent);
+}
+
+.also {
+  margin: 32px 0 0;
+  max-width: 62ch;
+  color: var(--muted);
 }
 
 /* Demo */
@@ -570,10 +696,30 @@ h2 {
     grid-column: 2;
   }
 
-  .pairs {
+  .flow {
     grid-template-columns: minmax(0, 1fr);
-    gap: 28px;
+    row-gap: var(--link);
+    max-width: 560px;
   }
+
+  /* Stacked: rows feed down into the document and out of it. */
+  .flow-side::before,
+  .end::after {
+    display: none;
+  }
+
+  .doc::before,
+  .doc::after {
+    top: auto;
+    left: 50%;
+    right: auto;
+    width: 2px;
+    height: var(--link);
+    margin: 0 0 0 -1px;
+  }
+
+  .doc::before { bottom: 100%; }
+  .doc::after { top: 100%; }
 }
 
 @media (max-width: 600px) {
@@ -610,6 +756,34 @@ h2 {
 
   .cmd code {
     font-size: 0.75rem;
+  }
+
+  .clients {
+    grid-auto-rows: auto;
+  }
+
+  .clients .end {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    row-gap: 4px;
+    padding: 12px 14px;
+  }
+
+  .clients .end::before {
+    order: 0;
+  }
+
+  .clients .end-name {
+    order: 1;
+    margin-left: 0;
+  }
+
+  .clients code {
+    order: 2;
+    flex-basis: 100%;
+    font-size: 0.75rem;
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 
   .rail pre {
