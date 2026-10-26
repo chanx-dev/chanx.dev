@@ -40,21 +40,51 @@ tabs.forEach((tab, i) => {
   });
 });
 
-// The hero's one motion: a message leaves each language and arrives as the same frame.
+// The hero's one motion: each language sends its message down the rail, and all three
+// arrive as the same frame. Replays while the rail is on screen.
 const rail = document.querySelector(".rail");
 if (rail && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
-  const railTop = rail.getBoundingClientRect().top;
-  const dotY = (stop) => stop.getBoundingClientRect().top - railTop + 5;
   const wire = rail.querySelector(".stop.wire");
-  const to = dotY(wire) + 2;
-  for (const lang of ["py", "ts", "go"]) {
-    const packet = rail.querySelector(`.packet.${lang}`);
-    packet.style.setProperty("--from", `${dotY(rail.querySelector(`.stop.${lang}`)) + 1}px`);
-    packet.style.setProperty("--to", `${to}px`);
-  }
-  rail.querySelector(".packet.go").addEventListener("animationend", () => {
+  const packets = ["py", "ts", "go"].map((lang) => ({
+    el: rail.querySelector(`.packet.${lang}`),
+    stop: rail.querySelector(`.stop.${lang}`),
+  }));
+  // Top of a 14px dot centred on a stop's marker, which sits 11px below the stop's top.
+  const dotTop = (stop) =>
+    stop.getBoundingClientRect().top - rail.getBoundingClientRect().top + 11 - 7;
+
+  let visible = false;
+  let playing = false;
+  let timer = 0;
+
+  async function play() {
+    if (playing) return;
+    playing = true;
+    const to = dotTop(wire);
+    const runs = packets.map(({ el, stop }, i) => {
+      const from = dotTop(stop);
+      return el.animate(
+        [
+          { transform: `translateY(${from}px) scale(1)`, opacity: 1 },
+          { transform: `translateY(${to}px) scale(1)`, opacity: 1, offset: 0.88 },
+          { transform: `translateY(${to}px) scale(0.3)`, opacity: 0 },
+        ],
+        { duration: 1300, delay: i * 260, easing: "cubic-bezier(0.5, 0, 0.3, 1)" },
+      ).finished;
+    });
+    await Promise.all(runs);
+    playing = false;
     wire.classList.add("arrived");
-    setTimeout(() => wire.classList.remove("arrived"), 900);
-  });
-  requestAnimationFrame(() => rail.classList.add("run"));
+    setTimeout(() => wire.classList.remove("arrived"), 700);
+    timer = setTimeout(() => visible && play(), 4200);
+  }
+
+  new IntersectionObserver(([entry]) => {
+    const wasVisible = visible;
+    visible = entry.isIntersecting;
+    if (visible && !wasVisible) {
+      clearTimeout(timer);
+      timer = setTimeout(play, 500);
+    }
+  }).observe(rail);
 }

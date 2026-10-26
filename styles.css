@@ -231,13 +231,13 @@ h1 {
   position: absolute;
   left: -27px;
   top: 11px;
-  bottom: -22px;
+  bottom: -29px;
   width: 2px;
   background: var(--line);
 }
 
 .stop.go::after {
-  bottom: -34px;
+  bottom: -41px;
 }
 
 .stop::before {
@@ -249,7 +249,6 @@ h1 {
   height: 14px;
   border-radius: 50%;
   background: var(--dot);
-  box-shadow: 0 0 0 4px var(--paper);
   z-index: 1;
 }
 
@@ -302,28 +301,15 @@ h1 {
 
 .packet {
   position: absolute;
-  left: 6px;
+  left: 5px;
   top: 0;
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   background: var(--dot);
   opacity: 0;
+  z-index: 2;
   pointer-events: none;
-}
-
-.rail.run .packet {
-  animation: travel 1.1s cubic-bezier(0.55, 0, 0.35, 1) forwards;
-}
-
-.rail.run .packet.ts { animation-delay: 0.25s; }
-.rail.run .packet.go { animation-delay: 0.5s; }
-
-@keyframes travel {
-  0% { opacity: 0; transform: translateY(var(--from)); }
-  12% { opacity: 1; }
-  88% { opacity: 1; }
-  100% { opacity: 0; transform: translateY(var(--to)); }
 }
 
 /* Sections */
@@ -633,10 +619,6 @@ h2 {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .rail.run .packet {
-    animation: none;
-  }
-
   .start,
   .wire pre {
     transition: none;
