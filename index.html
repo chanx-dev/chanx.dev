@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>chanx: typed WebSockets in Python, TypeScript and Go</title>
+  <meta name="description" content="Declare each WebSocket message once and get routing, validation, broadcasts, AsyncAPI docs and typed clients. One protocol, implemented in Python, TypeScript and Go.">
+  <meta name="theme-color" content="#1e3a8a">
+  <meta property="og:title" content="chanx: typed WebSockets in Python, TypeScript and Go">
+  <meta property="og:description" content="One WebSocket protocol, implemented in Python, TypeScript and Go, with typed clients generated from AsyncAPI.">
+  <meta property="og:url" content="https://chanx.dev/">
+  <meta property="og:image" content="https://chanx.dev/assets/brand/social-card.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/assets/brand/favicon.ico" sizes="any">
+  <link rel="icon" href="/assets/brand/cx-app-icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="top">
+    <a class="brand" href="/" aria-label="chanx home">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="/assets/brand/chanx-wordmark-dark.svg">
+        <img src="/assets/brand/chanx-wordmark.svg" alt="chanx" width="132" height="34">
+      </picture>
+    </a>
+    <nav aria-label="Documentation">
+      <a href="https://python.chanx.dev/">Python</a>
+      <a href="https://js.chanx.dev/">TypeScript</a>
+      <a href="https://go.chanx.dev/">Go</a>
+      <a href="https://kit.chanx.dev/">Kits</a>
+      <a href="https://github.com/chanx-dev">GitHub</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="hero-copy">
+        <h1>Typed WebSockets that speak the same protocol in Python, TypeScript and Go.</h1>
+        <p class="lede">
+          Declare each message once. chanx routes it to a typed handler, validates it,
+          broadcasts it to groups and documents it as AsyncAPI, then generates typed clients
+          from that document. Every implementation puts the same frames on the wire, so a
+          Django server, a Go service and a React app can all talk to each other.
+        </p>
+        <ul class="starts" aria-label="Get started">
+          <li><a class="start py" href="https://python.chanx.dev/en/latest/quick-start.html">Start in Python</a></li>
+          <li><a class="start ts" href="https://js.chanx.dev/">Start in TypeScript</a></li>
+          <li><a class="start go" href="https://go.chanx.dev/introduction/quick-start">Start in Go</a></li>
+        </ul>
+      </div>
+
+      <figure class="rail" aria-label="The same chat message declared in three languages, and the frame they all send">
+        <ol>
+          <li class="stop py">
+            <span class="where">chanx, Python</span>
+<pre><code><span class="k">class</span> <span class="t">ChatMessage</span>(<span class="t">BaseMessage</span>):
+    action: <span class="t">Literal</span>[<span class="s">"chat"</span>] = <span class="s">"chat"</span>
+    payload: <span class="t">ChatPayload</span></code></pre>
+          </li>
+          <li class="stop ts">
+            <span class="where">chanx-js, TypeScript</span>
+<pre><code><span class="k">const</span> Chat = defineMessage(<span class="s">'chat'</span>,
+  z.object({ text: z.string() }),
+);</code></pre>
+          </li>
+          <li class="stop go">
+            <span class="where">chanx-go, Go</span>
+<pre><code><span class="k">type</span> <span class="t">ChatMessage</span> <span class="k">struct</span> {
+	chanx.<span class="t">BaseMessage</span> <span class="s">`action:"chat"`</span>
+	Payload <span class="t">ChatPayload</span> <span class="s">`json:"payload"`</span>
+}</code></pre>
+          </li>
+          <li class="stop wire">
+            <span class="where">On the wire, from any of them</span>
+<pre><code>{<span class="s">"action"</span>: <span class="s">"chat"</span>, <span class="s">"payload"</span>: {<span class="s">"text"</span>: <span class="s">"hi"</span>}}</code></pre>
+          </li>
+        </ol>
+        <span class="packet py" aria-hidden="true"></span>
+        <span class="packet ts" aria-hidden="true"></span>
+        <span class="packet go" aria-hidden="true"></span>
+      </figure>
+    </section>
+
+    <section class="projects" aria-labelledby="projects-title">
+      <h2 id="projects-title">Four projects, one protocol</h2>
+      <p class="section-lede">Use one, or mix them across your stack. Each has its own docs.</p>
+
+      <ul class="project-list">
+        <li class="project py">
+          <picture class="mark">
+            <source media="(prefers-color-scheme: dark)" srcset="/assets/brand/chanx-symbol-dark.svg">
+            <img src="/assets/brand/chanx-symbol.svg" alt="" width="44" height="44">
+          </picture>
+          <div class="about">
+            <h3><a href="https://python.chanx.dev/">chanx</a> <span class="lang">for Python</span></h3>
+            <p>Typed consumers for Django Channels, FastAPI and any ASGI app, with test helpers and DRF permissions. Home of the protocol spec.</p>
+          </div>
+          <div class="get">
+            <button class="cmd" type="button" data-copy='pip install "chanx[fast_channels]"'><code>pip install "chanx[fast_channels]"</code><span class="copied" aria-live="polite"></span></button>
+            <p class="note">Use <code>chanx[channels]</code> for Django.</p>
+          </div>
+        </li>
+        <li class="project ts">
+          <picture class="mark">
+            <source media="(prefers-color-scheme: dark)" srcset="/assets/brand/chanx-js-symbol-dark.svg">
+            <img src="/assets/brand/chanx-js-symbol.svg" alt="" width="44" height="44">
+          </picture>
+          <div class="about">
+            <h3><a href="https://js.chanx.dev/">chanx-js</a> <span class="lang">for TypeScript</span></h3>
+            <p>A server for Node, Bun and Deno, and generated clients for the browser, React, Vue, Svelte and Solid.</p>
+          </div>
+          <div class="get">
+            <button class="cmd" type="button" data-copy="npm install @chanx-js/server ws zod"><code>npm install @chanx-js/server ws zod</code><span class="copied" aria-live="polite"></span></button>
+            <p class="note">Clients come from <code>@chanx-js/codegen</code>.</p>
+          </div>
+        </li>
+        <li class="project go">
+          <picture class="mark">
+            <source media="(prefers-color-scheme: dark)" srcset="/assets/brand/chanx-go-symbol-dark.svg">
+            <img src="/assets/brand/chanx-go-symbol.svg" alt="" width="44" height="44">
+          </picture>
+          <div class="about">
+            <h3><a href="https://go.chanx.dev/">chanx-go</a> <span class="lang">for Go</span></h3>
+            <p>Servers on net/http, chi, gin, echo and Fiber, in-memory tests with no ports, and a Go client generator.</p>
+          </div>
+          <div class="get">
+            <button class="cmd" type="button" data-copy="go get go.chanx.dev"><code>go get go.chanx.dev</code><span class="copied" aria-live="polite"></span></button>
+            <p class="note">Go 1.25 or later.</p>
+          </div>
+        </li>
+        <li class="project kit">
+          <picture class="mark">
+            <source media="(prefers-color-scheme: dark)" srcset="/assets/brand/chanx-kit-symbol-dark.svg">
+            <img src="/assets/brand/chanx-kit-symbol.svg" alt="" width="44" height="44">
+          </picture>
+          <div class="about">
+            <h3><a href="https://kit.chanx.dev/">chanx-kit</a> <span class="lang">ready-made components</span></h3>
+            <p>Notifications, chat with history, presence and agent streaming for chanx. Copied into your project, so the code is yours to change.</p>
+          </div>
+          <div class="get">
+            <button class="cmd" type="button" data-copy="uvx copit add @chanx-kit/notification"><code>uvx copit add @chanx-kit/notification</code><span class="copied" aria-live="polite"></span></button>
+            <p class="note">Works on Django and FastAPI.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="mix" aria-labelledby="mix-title">
+      <h2 id="mix-title">The server and the client don't have to share a language</h2>
+      <ul class="pairs">
+        <li>
+          <span class="pair" aria-hidden="true"><i class="py"></i><i class="ts"></i></span>
+          <p><strong>Django or FastAPI server, React client.</strong> chanx-js generates the client from the AsyncAPI document your Python server serves.</p>
+        </li>
+        <li>
+          <span class="pair" aria-hidden="true"><i class="go"></i><i class="ts"></i></span>
+          <p><strong>Go server, TypeScript client.</strong> Same document, same generator, and a typo in a message fails to compile.</p>
+        </li>
+        <li>
+          <span class="pair" aria-hidden="true"><i class="ts"></i><i class="py"></i></span>
+          <p><strong>Node and Python servers on one Redis.</strong> Their channel layers share a format, so a broadcast from either reaches clients of both.</p>
+        </li>
+      </ul>
+    </section>
+
+    <section class="demo" aria-labelledby="demo-title">
+      <h2 id="demo-title">From handler to typed client</h2>
+      <p class="section-lede">Write a handler, open the AsyncAPI docs generated from it, generate a client, and watch the compiler catch a typo.</p>
+      <div class="tabs" role="tablist" aria-label="Demo language">
+        <button role="tab" id="tab-python" aria-controls="demo-panel" aria-selected="true" data-demo="python" class="py">Python</button>
+        <button role="tab" id="tab-typescript" aria-controls="demo-panel" aria-selected="false" data-demo="typescript" class="ts" tabindex="-1">TypeScript</button>
+        <button role="tab" id="tab-go" aria-controls="demo-panel" aria-selected="false" data-demo="go" class="go" tabindex="-1">Go</button>
+      </div>
+      <div id="demo-panel" role="tabpanel" aria-labelledby="tab-python">
+        <video id="demo-video" src="/assets/demo/python.mp4" poster="/assets/demo/python.jpg" width="1600" height="700" controls muted playsinline preload="none"></video>
+      </div>
+    </section>
+
+    <section class="spec" aria-labelledby="spec-title">
+      <h2 id="spec-title">Writing another implementation?</h2>
+      <p>
+        The protocol is small: JSON text frames with an <code>action</code> and a
+        <code>payload</code>, plus request ids, topics and a single error shape. The spec
+        lists every frame, so a new implementation can be checked against the three above.
+      </p>
+      <p><a class="plain" href="https://python.chanx.dev/en/latest/protocol.html">Read the protocol spec</a></p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>chanx is open source. Code, issues and discussions are on <a href="https://github.com/chanx-dev">GitHub</a>.</p>
+  </footer>
+
+  <script src="/main.js" defer></script>
+</body>
+</html>
