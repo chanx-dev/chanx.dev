@@ -543,26 +543,31 @@ h2 {
   padding-left: 24px;
 }
 
+/* Clients: TypeScript leads (most people want a typed frontend), Python and Go follow
+   as compact rows. Row heights are fixed so the bracket can meet each row's centre. */
+.clients {
+  --main: 104px;
+  --minor: 48px;
+  grid-template-rows: var(--main) var(--minor) var(--minor);
+  grid-auto-rows: unset;
+}
+
+.clients::before {
+  top: calc(var(--main) / 2);
+  bottom: calc(var(--minor) / 2);
+}
+
 .clients .end {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   grid-template-areas: "label dot" "code dot";
   align-content: center;
-  row-gap: 3px;
+  row-gap: 4px;
 }
 
 .clients .end::before {
   grid-area: dot;
   align-self: center;
-}
-
-.clients code {
-  grid-area: code;
-  font-size: 0.8125rem;
-  color: var(--muted);
-  white-space: nowrap;
-  overflow-x: auto;
-  min-width: 0;
 }
 
 .end-label {
@@ -574,10 +579,72 @@ h2 {
 
 .clients .end-label {
   grid-area: label;
+}
+
+.clients code {
+  grid-area: code;
+  font-size: 0.8125rem;
+  white-space: nowrap;
+  overflow-x: auto;
+  min-width: 0;
+}
+
+/* The main row: bigger name, its own colour on the border and on the line into it. */
+.clients .main {
+  padding: 0 18px;
+  border: 1.5px solid var(--dot);
+  row-gap: 8px;
+}
+
+.clients .main::before {
+  width: 14px;
+  height: 14px;
+}
+
+.clients .main::after {
+  background: var(--dot);
+}
+
+.clients .main .end-name {
+  font-size: 1.125rem;
+}
+
+.clients .main .end-sub {
+  white-space: normal;
+}
+
+.clients .main code {
+  justify-self: start;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--dot) 12%, transparent);
+  color: var(--ink);
+}
+
+/* Python and Go: one line each, quieter. */
+.clients .end:not(.main) {
+  grid-template-areas: "label code dot";
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  column-gap: 14px;
+}
+
+.clients .end:not(.main) .end-label {
   flex-direction: row;
   align-items: baseline;
-  flex-wrap: wrap;
-  column-gap: 10px;
+  column-gap: 8px;
+}
+
+.clients .end:not(.main) .end-name {
+  font-size: 0.9375rem;
+}
+
+.clients .end:not(.main) .end-sub {
+  display: none;
+}
+
+.clients .end:not(.main) code {
+  color: var(--muted);
+  text-align: right;
 }
 
 .doc {
@@ -776,15 +843,19 @@ h2 {
   }
 
   .clients {
+    grid-template-rows: none;
     grid-auto-rows: auto;
   }
 
-  .clients .end {
+  .clients .end,
+  .clients .end:not(.main) {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "label dot" "code dot";
     padding: 12px 14px;
   }
 
-  .clients .end-label {
-    flex-direction: column;
+  .clients .end:not(.main) code {
+    text-align: left;
   }
 
   .clients code {

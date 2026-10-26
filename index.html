@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/styles.css?v=891a5673a7">
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -171,9 +171,12 @@
         </div>
 
         <ul class="flow-side clients" aria-label="Client generators">
-          <li class="end py"><code>chanx generate-client</code><span class="end-label"><span class="end-name">Python client</span><span class="end-sub">asyncio scripts, services, tests</span></span></li>
-          <li class="end ts"><code>npx @chanx-js/codegen</code><span class="end-label"><span class="end-name">TypeScript client</span><span class="end-sub">Browser, React, Vue, Svelte, Solid, Node</span></span></li>
-          <li class="end go"><code>go run go.chanx.dev/cmd/chanx-codegen@latest</code><span class="end-label"><span class="end-name">Go client</span><span class="end-sub">CLIs, bots, services, load tests</span></span></li>
+          <li class="end ts main">
+            <span class="end-label"><span class="end-name">TypeScript client</span><span class="end-sub">For your frontend: React, Vue, Svelte, Solid, the plain browser, or Node</span></span>
+            <code>npx @chanx-js/codegen</code>
+          </li>
+          <li class="end py"><span class="end-label"><span class="end-name">Python client</span><span class="end-sub">scripts, services, tests</span></span><code>chanx generate-client</code></li>
+          <li class="end go"><span class="end-label"><span class="end-name">Go client</span><span class="end-sub">CLIs, bots, load tests</span></span><code>go run go.chanx.dev/cmd/chanx-codegen@latest</code></li>
         </ul>
       </div>
 
@@ -211,6 +214,6 @@
     <p>chanx is open source. Code, issues and discussions are on <a href="https://github.com/chanx-dev">GitHub</a>.</p>
   </footer>
 
-  <script src="/main.js" defer></script>
+  <script src="/main.js?v=d4d3647253" defer></script>
 </body>
 </html>

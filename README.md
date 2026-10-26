@@ -9,7 +9,8 @@ chanx implementation's docs.
 - [chanx-kit](https://github.com/chanx-dev/chanx-kit): [kit.chanx.dev](https://kit.chanx.dev)
 
 No build step. Preview with `python3 -m http.server` and open http://localhost:8000.
-GitHub Pages serves `main` as is; `CNAME` holds the domain.
+GitHub Pages serves `main` as is; `CNAME` holds the domain. After changing
+`styles.css` or `main.js`, run `scripts/stamp.sh` so browsers fetch the new files.
 
 The demo videos in `assets/demo` and the brand files in `assets/brand` are copies from the
 project repositories. Update them there first.
