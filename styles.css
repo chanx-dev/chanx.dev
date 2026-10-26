@@ -459,19 +459,6 @@ h2 {
   position: relative;
 }
 
-/* The bracket that gathers the three rows into one line. */
-.flow-side::before {
-  content: "";
-  position: absolute;
-  top: calc(var(--row) / 2);
-  bottom: calc(var(--row) / 2);
-  width: 2px;
-  background: var(--line);
-}
-
-.servers::before { right: calc(var(--link) * -1); }
-.clients::before { left: calc(var(--link) * -1); }
-
 .end {
   position: relative;
   display: flex;
@@ -493,27 +480,8 @@ h2 {
   background: var(--dot);
 }
 
-/* The stub from each row to its bracket. */
-.end::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  width: var(--link);
-  height: 2px;
-  margin-top: -1px;
-  background: var(--line);
-  transition: background-color 0.15s;
-}
-
-.servers .end::after { left: 100%; }
-.clients .end::after { right: 100%; }
-
 .end:hover {
   border-color: var(--dot);
-}
-
-.end:hover::after {
-  background: var(--dot);
 }
 
 .end-name {
@@ -550,11 +518,6 @@ h2 {
   --minor: 48px;
   grid-template-rows: var(--main) var(--minor) var(--minor);
   grid-auto-rows: unset;
-}
-
-.clients::before {
-  top: calc(var(--main) / 2);
-  bottom: calc(var(--minor) / 2);
 }
 
 .clients .end {
@@ -599,10 +562,6 @@ h2 {
 .clients .main::before {
   width: 14px;
   height: 14px;
-}
-
-.clients .main::after {
-  background: var(--dot);
 }
 
 .clients .main .end-name {
@@ -659,20 +618,40 @@ h2 {
   transition: box-shadow 0.15s;
 }
 
-/* Links from the brackets into the document. */
-.doc::before,
-.doc::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  width: var(--link);
-  height: 2px;
-  margin-top: -1px;
-  background: var(--line);
+/* Wires: one curve per row into the document, drawn by main.js. Rows sit above them. */
+.flow {
+  position: relative;
 }
 
-.doc::before { right: 100%; }
-.doc::after { left: 100%; }
+.wires {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.wires path {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 2;
+  transition: stroke 0.15s;
+}
+
+.wires path.lit {
+  stroke: var(--dot);
+}
+
+.wires path.reach {
+  stroke: color-mix(in srgb, var(--ink) 40%, var(--line));
+}
+
+.flow-side,
+.doc {
+  position: relative;
+  z-index: 1;
+}
 
 .doc code {
   font-size: 1.0625rem;
@@ -787,19 +766,19 @@ h2 {
   }
 
   /* Stacked: rows feed down into the document and out of it. */
-  .flow-side::before,
-  .end::after {
+  .wires {
     display: none;
   }
 
   .doc::before,
   .doc::after {
-    top: auto;
+    content: "";
+    position: absolute;
     left: 50%;
-    right: auto;
     width: 2px;
     height: var(--link);
-    margin: 0 0 0 -1px;
+    margin-left: -1px;
+    background: var(--line);
   }
 
   .doc::before { bottom: 100%; }
