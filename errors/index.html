@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Error types: chanx</title>
+  <meta name="description" content="The problem types a chanx server sends in error frames.">
+  <meta name="theme-color" content="#1e3a8a">
+  <link rel="canonical" href="https://chanx.dev/errors/">
+  <link rel="icon" href="/assets/brand/favicon.ico" sizes="any">
+  <link rel="icon" href="/assets/brand/cx-app-icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/styles.css?v=5e1560c473">
+  <link rel="stylesheet" href="/errors/errors.css?v=b76a6b012d">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="top">
+    <a class="brand" href="/" aria-label="chanx home">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="/assets/brand/chanx-wordmark-dark.svg">
+        <img src="/assets/brand/chanx-wordmark.svg" alt="chanx" width="132" height="34">
+      </picture>
+    </a>
+    <nav aria-label="Documentation">
+      <a href="https://python.chanx.dev/">Python</a>
+      <a href="https://js.chanx.dev/">TypeScript</a>
+      <a href="https://go.chanx.dev/">Go</a>
+      <a href="https://kit.chanx.dev/">Kits</a>
+      <a href="https://github.com/chanx-dev">GitHub</a>
+    </nav>
+  </header>
+
+  <main id="main" class="problem">
+    <h1>Error types</h1>
+    <p>
+      A chanx server answers a frame it cannot handle with an <code>error</code> frame whose
+      payload is an <a href="https://www.rfc-editor.org/rfc/rfc9457">RFC 9457</a> problem
+      details object. Its <code>type</code> is one of the URIs below, the same in Python,
+      TypeScript and Go. Branch on <code>type</code>; <code>title</code> and
+      <code>detail</code> are for people.
+    </p>
+    <table>
+      <thead><tr><th scope="col">Type, under <code>https://chanx.dev/errors/</code></th><th scope="col">Title</th></tr></thead>
+      <tbody>
+        <tr><td><a href="/errors/validation-failed"><code>validation-failed</code></a></td><td>Message failed validation</td></tr>
+        <tr><td><a href="/errors/invalid-json"><code>invalid-json</code></a></td><td>Frame is not valid JSON</td></tr>
+        <tr><td><a href="/errors/handler-failed"><code>handler-failed</code></a></td><td>Message handler failed</td></tr>
+        <tr><td><a href="/errors/internal-error"><code>internal-error</code></a></td><td>Message could not be processed</td></tr>
+        <tr><td><a href="/errors/unknown-topic"><code>unknown-topic</code></a></td><td>Unknown topic</td></tr>
+        <tr><td><a href="/errors/unauthorized"><code>unauthorized</code></a></td><td>Subscription not allowed</td></tr>
+        <tr><td><a href="/errors/not-subscribed"><code>not-subscribed</code></a></td><td>Not subscribed to topic</td></tr>
+      </tbody>
+    </table>
+    <p class="more">The <a href="https://python.chanx.dev/en/latest/protocol.html#protocol-errors">protocol spec</a> describes the whole error format.</p>
+  </main>
+
+  <footer class="foot">
+    <p>All chanx projects are open source. Code, issues and discussions are on <a href="https://github.com/chanx-dev">GitHub</a>.</p>
+  </footer>
+</body>
+</html>

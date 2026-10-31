@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Frame is not valid JSON: chanx error</title>
+  <meta name="description" content="The frame is not a JSON text frame: it does not parse, or it is a binary frame.">
+  <meta name="theme-color" content="#1e3a8a">
+  <link rel="canonical" href="https://chanx.dev/errors/invalid-json">
+  <link rel="icon" href="/assets/brand/favicon.ico" sizes="any">
+  <link rel="icon" href="/assets/brand/cx-app-icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/styles.css?v=5e1560c473">
+  <link rel="stylesheet" href="/errors/errors.css?v=b76a6b012d">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="top">
+    <a class="brand" href="/" aria-label="chanx home">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="/assets/brand/chanx-wordmark-dark.svg">
+        <img src="/assets/brand/chanx-wordmark.svg" alt="chanx" width="132" height="34">
+      </picture>
+    </a>
+    <nav aria-label="Documentation">
+      <a href="https://python.chanx.dev/">Python</a>
+      <a href="https://js.chanx.dev/">TypeScript</a>
+      <a href="https://go.chanx.dev/">Go</a>
+      <a href="https://kit.chanx.dev/">Kits</a>
+      <a href="https://github.com/chanx-dev">GitHub</a>
+    </nav>
+  </header>
+
+  <main id="main" class="problem">
+    <p class="crumb"><a href="/errors/">chanx error types</a></p>
+    <h1>Frame is not valid JSON</h1>
+    <p class="uri"><code>https://chanx.dev/errors/invalid-json</code></p>
+
+    <h2>When it is sent</h2>
+    <p>The frame is not a JSON text frame: it does not parse, or it is a binary frame.</p>
+
+    <h2>What to do</h2>
+    <p>Send one JSON object per text frame. The connection stays open. The <code>detail</code> carries the server's JSON parser message, which differs between implementations.</p>
+
+    <h2>Example</h2>
+    <p>The payload of an <code>error</code> frame, an <a href="https://www.rfc-editor.org/rfc/rfc9457">RFC 9457</a> problem details object:</p>
+<pre tabindex="0"><code>{
+  &quot;type&quot;: &quot;https://chanx.dev/errors/invalid-json&quot;,
+  &quot;title&quot;: &quot;Frame is not valid JSON&quot;,
+  &quot;detail&quot;: &quot;Invalid JSON: binary frames are not supported&quot;
+}</code></pre>
+
+    <p class="more">Every chanx implementation sends this type the same way. The <a href="https://python.chanx.dev/en/latest/protocol.html#protocol-errors">protocol spec</a> describes the whole error format.</p>
+  </main>
+
+  <footer class="foot">
+    <p>All chanx projects are open source. Code, issues and discussions are on <a href="https://github.com/chanx-dev">GitHub</a>.</p>
+  </footer>
+</body>
+</html>
